@@ -1,5 +1,5 @@
 from typing import Generator
-from objects import Song, Language
+from utils.objects import Song, Language
 
 
 def pull_music(language: Language, n_files: int = 100) -> Generator[Song]:

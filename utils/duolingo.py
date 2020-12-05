@@ -1,4 +1,4 @@
-from objects import Language
+from utils.objects import Language
 
 
 def get_vocab(language: Language, username: str, password: str, n_words: int = 10) -> list[str]:
