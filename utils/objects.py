@@ -3,6 +3,7 @@ class Song:
         self.name = name
         self.artist = artist
         self.lyrics = lyrics
+        self.lyrics.replace('\n', ' ')
 
     def __str__(self):
         return self.name + ' by ' + self.artist

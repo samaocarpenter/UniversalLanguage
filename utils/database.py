@@ -54,7 +54,7 @@ def add_files(language: Language, n_files: int = 100) -> None:
         name = str(song)
         for word in lyrics:
             word = ''.join([i for i in word if i.isalpha()])
-            if word not in vocabulary:
+            if word not in vocabulary and word != '':
                 vocabulary[word] = set()
             vocabulary[word].add(name)
 
