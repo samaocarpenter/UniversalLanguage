@@ -1,5 +1,5 @@
-from objects import Song, Language
-from music import pull_music
+from utils.objects import Song, Language
+from utils.music import pull_music
 import pickle
 from collections import Counter
 

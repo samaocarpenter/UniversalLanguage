@@ -1,4 +1,4 @@
-from objects import Language
+from utils.objects import Language
 
 
 def get_vocab(language: Language, username: str, password: str, n_words: int = 10) -> list[str]:
@@ -13,3 +13,14 @@ def get_vocab(language: Language, username: str, password: str, n_words: int = 1
     :return: list of vocab words as strings
     """
     raise NotImplementedError()
+
+#Non-UI implementation
+user_id = input("enter user id")
+password = input("enter password")
+lang = input("enter language")
+
+lingo = duolingo.Duolingo(user_id, password)
+abbrev = lingo.get_abbreviation_of(lang)
+myset = lingo.get_known_words(abbrev)
+
+mylist = list(myset)
