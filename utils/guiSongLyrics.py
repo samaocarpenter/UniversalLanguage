@@ -5,7 +5,7 @@
 from tkinter import *
 
 def go_back() -> None:
-    print("ur_mom")
+    print("example")
 
 # Get the song lyrics
 lyrics_text = "line1"
