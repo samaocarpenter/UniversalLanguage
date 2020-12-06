@@ -5,18 +5,18 @@ from collections import Counter
 
 
 def search(
-        vocab: list[str], language: Language, n_songs: int = 3,
+        vocab: list[str], fname: str, n_songs: int = 3,
 ) -> list[str]:
     """
     :param vocab: list of vocabulary words to be searched for
-    :param language: language to be used
+    :param fname: file for language to be used
     :param n_songs: number of songs to return
     :return: list of n_songs songs, each represented as a string containing:
         (song name) by (artist name)
     """
 
     try:
-        with open(language.file, 'rb') as f:
+        with open(fname, 'rb') as f:
             words = pickle.load(f)
     except FileNotFoundError as e:
         raise FileNotFoundError(
