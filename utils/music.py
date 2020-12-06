@@ -3,18 +3,21 @@ import requests
 
 
 # GENERATOR
-def pull_music(language: Language, n_files: int = 100) -> Song:
+# NOTE: this code requires a working apikey
+# MxM keys expire after a certain number of uses, so this code cannot be used past
+# n_files = 400 or so on a free API key, significantly limiting song indexing.
+def pull_music(apikey: str, language: Language, n_files: int = 100) -> Song:
     """
     Generator function yielding songs in the desired language.
     Should pull lyrics and data from Genius or some other database.
 
+    :param apikey: the musixmatch API key
     :param language: language to pull music for
     :param n_files: number of songs to bre returned
     :return: generates song objects
     """
     filter_explicit = True
 
-    apikey = "85bc15a0e3c80f2e1112755526e4b80f"
     url = "https://api.musixmatch.com/ws/1.1/chart.tracks.get"
     page = 1
 
@@ -22,7 +25,7 @@ def pull_music(language: Language, n_files: int = 100) -> Song:
         "apikey": apikey,
         "f_lyrics_language": language.code,
         "page_size": min(100, n_files),
-        "country": "XW",
+        "country": "US",
         "page": page,
         "chart_name": 'mxmweekly'
     }
@@ -30,13 +33,7 @@ def pull_music(language: Language, n_files: int = 100) -> Song:
     while n_files > 0:
 
         response = requests.get(url, params=parameters)
-        if response.status_code != 200:
-            raise ConnectionError(
-                "Musixmatch returned status code " + str(response.status_code)
-            )
-
         songs = response.json()['message']['body']['track_list']
-        n = len(songs)
 
         for song in songs:
 
@@ -48,34 +45,15 @@ def pull_music(language: Language, n_files: int = 100) -> Song:
                 "track_id": track_id,
                 "apikey": apikey
             }
+
             lyrics = requests.get(url2, params=small_p)
-
-            if lyrics.status_code != 200:
-                raise ConnectionError("Musixmatch returned status code: " + str(lyrics.status_code))
-
             lyrics = lyrics.json()["message"]["body"]["lyrics"]
 
-            if filter_explicit and not lyrics['explicit']:
+            if (filter_explicit and not lyrics['explicit']) or not filter_explicit:
+                n_files -= 1
                 yield Song(song["track_name"], song["artist_name"], lyrics["lyrics_body"][:-58])
 
-        n_files -= n
         page += 1
 
         parameters["page_size"] = min(n_files, 100)
         parameters["page"] = page
-
-        print(parameters)
-
-
-def debug():
-
-    n_files = 160
-    lang = Language("Spanish", 'es')
-    i = 0
-    for song in pull_music(lang, n_files):
-        print(song)
-        print(i := i + 1)
-
-
-if __name__ == '__main__':
-    debug()

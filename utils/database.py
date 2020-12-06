@@ -2,6 +2,7 @@ from utils.objects import Song, Language
 from utils.music import pull_music
 import pickle
 from collections import Counter
+import utils.languages as languages
 
 
 def search(
@@ -25,8 +26,9 @@ def search(
 
     counts = Counter()
     for word in vocab:
-        for song in words[word]:
-            counts[song] += 1
+        if word in words:
+            for song in words[word]:
+                counts[song] += 1
 
     ret = []
     for data, _ in counts.most_common(n_songs):
@@ -35,11 +37,12 @@ def search(
     return ret
 
 
-def add_files(language: Language, n_files: int = 100) -> None:
+def add_files(language: Language, apikey: str, n_files: int = 100) -> None:
     """
     Adds a set amount of songs to a database.
 
     :param language: the language for the songs
+    :param apikey: the apikey for musixmatch
     :param n_files: number of songs to be added
     :return:
     """
@@ -49,14 +52,19 @@ def add_files(language: Language, n_files: int = 100) -> None:
     except FileNotFoundError:
         vocabulary = {}
 
-    for song in pull_music(language, n_files=n_files):
+    for song in pull_music(apikey, language, n_files=n_files):
         lyrics = song.lyrics.lower().split()
         name = str(song)
         for word in lyrics:
             word = ''.join([i for i in word if i.isalpha()])
             if word not in vocabulary and word != '':
                 vocabulary[word] = set()
-            vocabulary[word].add(name)
+            if word != '':
+                vocabulary[word].add(name)
 
-    with open(language.file, 'wb') as f:
-        pickle.dump(vocabulary, f)
+        with open(language.file, 'wb') as f:
+            pickle.dump(vocabulary, f)
+
+if __name__ == "__main__":
+    apikey = "83c2d708d0ce0aa03bf565360b879745"
+    add_files(languages.Spanish, apikey, 100000)
