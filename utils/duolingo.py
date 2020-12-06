@@ -1,4 +1,6 @@
 from utils.objects import Language
+import duolingo
+from random import shuffle
 
 
 def get_vocab(language: Language, username: str, password: str, n_words: int = 10) -> list[str]:
@@ -9,18 +11,13 @@ def get_vocab(language: Language, username: str, password: str, n_words: int = 1
     :param language: language to be fetched
     :param username: user's Duolingo username
     :param password: user's Duolingo password
-    :param n_words: number of words to be returned
+    :param n_words: number of words to be returned (-1 will do all)
     :return: list of vocab words as strings
     """
-    raise NotImplementedError()
 
-#Non-UI implementation
-user_id = input("enter user id")
-password = input("enter password")
-lang = input("enter language")
-
-lingo = duolingo.Duolingo(user_id, password)
-abbrev = lingo.get_abbreviation_of(lang)
-myset = lingo.get_known_words(abbrev)
-
-mylist = list(myset)
+    lingo = duolingo.Duolingo(username, password)
+    my_set = lingo.get_reviewable_topics(language.code)
+    my_set = list(my_set)
+    if (n_words == -1):
+        return my_set
+    return shuffle(my_set)[:n_words]
