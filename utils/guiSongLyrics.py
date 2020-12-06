@@ -4,12 +4,12 @@
 
 from tkinter import *
 
-
 def go_back() -> None:
     print("ur_mom")
 
-lyrics_text = "aaaaiaiiaiaivshadvnsfdjhbvhdNckhjasbdvodinbiashvabf"
-lyrics_text1 = "AAAAAAA"
+# Get the song lyrics
+lyrics_text = "line1"
+lyrics_text1 = "line2"
 
 master = Tk()
 S = Scrollbar(master)
