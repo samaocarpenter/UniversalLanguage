@@ -4,6 +4,10 @@ from utils import languages
 import getpass
 
 
+# This code controls the main logic.
+# All it particularly does is accept inputs,
+# then reroute those inputs to the correct functions.
+# This runs in the command line: no GUI
 def main():
     print(
         """

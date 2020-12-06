@@ -1,4 +1,4 @@
-from utils.objects import Song, Language
+from utils.objects import Language
 from utils.music import pull_music
 import pickle
 from collections import Counter
@@ -15,6 +15,7 @@ def search(
         (song name) by (artist name)
     """
 
+    # Tries to open up the file
     try:
         with open(fname, 'rb') as f:
             words = pickle.load(f)
@@ -23,12 +24,14 @@ def search(
             'Language input does not have an existing associated database.\n' + repr(e)
         )
 
+    # Tracks usages of words in each song
     counts = Counter()
     for word in vocab:
         if word in words:
             for song in words[word]:
                 counts[song] += 1
 
+    # Returns most relevant songs
     ret = []
     for data, _ in counts.most_common(n_songs):
         ret.append(data)
@@ -45,12 +48,15 @@ def add_files(language: Language, apikey: str, n_files: int = 100) -> None:
     :param n_files: number of songs to be added
     :return:
     """
+
+    # Attempts to open the file
     try:
         with open(language.file, 'rb') as f:
             vocabulary = pickle.load(f)
     except FileNotFoundError:
         vocabulary = {}
 
+    # pulls out songs and saves them
     for song in pull_music(apikey, language, n_files=n_files):
         lyrics = song.lyrics.lower().split()
         name = str(song)
@@ -61,5 +67,8 @@ def add_files(language: Language, apikey: str, n_files: int = 100) -> None:
             if word != '':
                 vocabulary[word].add(name)
 
+        # In an ideal world this should be outside of the for-loop
+        # Sadly, because we use free API keys, they frequently stop randomly working halfway,
+        # so we need to save much more frequently. Inefficient, but effective
         with open(language.file, 'wb') as f:
             pickle.dump(vocabulary, f)

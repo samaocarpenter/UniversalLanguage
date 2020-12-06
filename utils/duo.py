@@ -3,7 +3,7 @@ import duolingo
 from random import shuffle
 
 
-def get_vocab(language: Language, username: str, password: str, n_words: int = 10) -> list[str]:
+def get_vocab(language: Language, username: str, password: str, n_words: int = -1) -> list[str]:
     """
     Retrieves a random number of the user's current vocab words.
     Function header may be changed depending on what authentication info Duolingo needs.
@@ -15,10 +15,15 @@ def get_vocab(language: Language, username: str, password: str, n_words: int = 1
     :return: list of vocab words as strings
     """
 
+    # logs into user's Duolingo account
     lingo = duolingo.Duolingo(username, password)
     my_set = lingo.get_known_words(language.code)
+
+    # if all words are requested, they're returned as a list
     my_list = list(my_set)
     if n_words == -1:
         return my_list
+
+    # otherwise, a random subset of the words are returned
     shuffle(my_list)
     return my_list[:n_words]
