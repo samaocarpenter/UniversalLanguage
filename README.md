@@ -20,3 +20,5 @@ After your environment is set up, clone this repository.
 
 In the terminal, navigate into the top-level directory, then run `python main.py`. 
 Follow the instructions!
+
+The GUI is currently in development: all files starting with GUI are experimental and should be used at one's own risk!
