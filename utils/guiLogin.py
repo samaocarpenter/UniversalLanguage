@@ -1,5 +1,5 @@
 import tkinter as tk
-import duo
+from utils.duo import get_vocab
 import duolingo
 from tkinter import Button, Label, Entry
 
@@ -23,11 +23,11 @@ def duo_login(username: str, password: str, language: str):
     error_label = tk.Label(text="Login failed")
     next_button = Button(master, text="next") #TODO: command SongRecs to open.
     try:
-        duo.get_vocab(language, username, password, -1)
+        get_vocab(language, username, password, -1)
         error_label.pack_forget()
         next_button.grid(row=4, column=0)
 
-    except DuolingoException("Login failed"):
+    except duolingo.DuolingoException("Login failed"):
             error_label.grid(row=4, column=0)
 
 
@@ -57,4 +57,4 @@ login_button = Button(master, text="Login", command=lambda: duo_login(username, 
 
 
 print(entry)
-mainloop()
+master.mainloop()
