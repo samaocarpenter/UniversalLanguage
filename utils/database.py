@@ -2,7 +2,6 @@ from utils.objects import Song, Language
 from utils.music import pull_music
 import pickle
 from collections import Counter
-import utils.languages as languages
 
 
 def search(
@@ -64,7 +63,3 @@ def add_files(language: Language, apikey: str, n_files: int = 100) -> None:
 
         with open(language.file, 'wb') as f:
             pickle.dump(vocabulary, f)
-
-if __name__ == "__main__":
-    apikey = "83c2d708d0ce0aa03bf565360b879745"
-    add_files(languages.Spanish, apikey, 100000)

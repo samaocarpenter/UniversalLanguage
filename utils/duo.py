@@ -1,7 +1,6 @@
 from utils.objects import Language
 import duolingo
 from random import shuffle
-from languages import Spanish
 
 
 def get_vocab(language: Language, username: str, password: str, n_words: int = 10) -> list[str]:
