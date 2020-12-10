@@ -1,55 +1,79 @@
 from tkinter import *
-from utils.duo import get_vocab
+import getpass
 import duolingo
 from tkinter import Button, Label, Entry
 
 master = Tk()
 
+# Welcome and description
+welcome_label = LabelFrame(master, text="Welcome to the UniversalLanguage app!", padx=10, pady=10)
+description_label = Label(welcome_label, text="""Learning a foreign language? This code will
+    take your vocabulary, and generate a list of
+    songs that will help you practice listening. We
+    currently support English and Spanish song searching.""")
 
+welcome_label.grid(row=0, column=0)
+description_label.grid(row=1, column=0)
 
-search = Button(master, text="Search!", padx=25, pady=25, command=None) # command to search for words entered in query
+# globals
+global lang_choice
+global duo_choice
+global duo_songs
+global vocab_songs
+global username_entry
+global password_entry
+lang_choice = BooleanVar()
+duo_choice = BooleanVar()
 
-# need some way to read a string of comma-separated words
-# can use split method for space-seperated words
+# language select
+lang_label = LabelFrame(master, text="Choose a language!", padx=10, pady=10)
+span = Radiobutton(lang_label, text="Spanish", variable=lang_choice, value=True)
+engl = Radiobutton(lang_label, text="English", variable=lang_choice, value=False)
+lang_label.grid(row=2, column=0)
+span.grid(row=3, column=0)
+engl.grid(row=4, column=0)
 
-#Trying out a function to handle username and password
+# duo select
+duo_label = LabelFrame(master, text="Connect to Duolingo?", padx=10, pady=10)
+duo_yes = Radiobutton(duo_label, text="Yes!", variable= duo_choice, value=True)
+duo_no = Radiobutton(duo_label, text="Nope!", variable= duo_choice, value=False)
 
-def duo_login(username: str, password: str):
-    """Takes in user login info once submit button is pressed.
-    Reveals next button if login was successful. Reveals a "try again" label
-    if login was unsuccessful."""
-    error_label = Label(master, text="Login failed")
-    next_button = Button(master, text="next") #TODO: command SongRecs to open.
-    try:
-        get_vocab(language, username, password, -1)
-        error_label.pack_forget()
+duo_label.grid(row=5, column=0)
+duo_yes.grid(row=6, column=0)
+duo_no.grid(row=7, column=0)
 
-    except duolingo.DuolingoException("Login failed"):
-            error_label.grid(row=4, column=0)
+# song count
+songs_label = LabelFrame(master, text="How many songs would you like?", padx=10, pady=10)
+song_entry = Entry(songs_label)
+songs_label.grid(row=8, column=0)
+song_entry.grid(row=9, column=0)
 
+submit_btn = Button(master, text="Submit!", command=lambda:decider(duo_choice.get()))
+submit_btn.grid(row=10, column=0)
 
-# label prompting user to enter Duolingo username and password
-name_label = Label(master, text="Username")
-name_entry = Entry(master)
-name_label.grid(row=0, column=0)
-name_entry.grid(row=1, column=0)
+def decider(value):
+    if value == True:
+        ask_login()
+    elif value == False:
+        type_vocab()
 
-pass_label = Label(master, text="Password")
-pass_entry = Entry(master)
-pass_label.grid(row=2, column=0)
-pass_entry.grid(row=3, column=0)
+def ask_login():
+    login_label = LabelFrame(master, text="Please enter your Duolingo Login")
+    email_entry = Entry(login_label, text="Usernme")
+    password_entry = Entry(login_label, text="password")
+    login_label.grid(row=11, column=0)
+    email_entry.grid(row=12, column=0)
+    password_entry.grid(row=13, column=0)
+    
 
-lang_label = Label(master, text="Language")
-lang_entry = Entry(master)
-lang_label.grid(row=4, column=0)
-lang_entry.grid(row=5, column=0)
+    
 
-username = name_entry.get
-password = pass_entry.get
-
-# button to submit login credentials. How to handle invalid login?
-login_button = Button(master, text="Login", command=lambda: duo_login(username, password))
-
+def type_vocab():
+    vocab_label = LabelFrame(master, text="Please enter your desired vocabulary")
+    vocab_entry = Entry(vocab_label)
+    vocab_label.grid(row=11, column=0)
+    vocab_entry.grid(row=12, column=0)
+   
 
 
 
