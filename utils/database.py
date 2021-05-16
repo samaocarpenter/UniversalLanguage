@@ -56,7 +56,7 @@ def add_files(language: Language, apikey: str, n_files: int = 100) -> None:
     except FileNotFoundError:
         vocabulary = {}
 
-    # pulls out songs and saves them
+    # retrieves songs and saves them
     for song in pull_music(apikey, language, n_files=n_files):
         lyrics = song.lyrics.lower().split()
         name = str(song)
