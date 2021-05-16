@@ -1,6 +1,6 @@
 from utils.objects import Language
 
-# Creates default languages to be used
+# Creates default languages to be used with corresponding codes
 Spanish = Language('spanish', 'es')
 English = Language('english', 'en')
 
