@@ -1,8 +1,7 @@
-from utils.objects import Language
+from utils.objects import Language, Spanish
 from utils.music import pull_music
 import pickle
 from collections import Counter
-
 
 def search(
         vocab: list[str], fname: str, n_songs: int = 3,
@@ -72,3 +71,31 @@ def add_files(language: Language, apikey: str, n_files: int = 100) -> None:
         # so we need to save much more frequently. Inefficient, but effective
         with open(language.file, 'wb') as f:
             pickle.dump(vocabulary, f)
+
+
+def pull_only_contents(language: Language, apikey: str) -> list:
+    """
+    Pulls raw content of API calls from top charts.
+
+    :param language: the language for the songs
+    :param apikey: the apikey for musixmatch
+    :return: list of songs
+    """
+
+    # Attempts to open the file
+    try:
+        with open("songdb.dat", 'rb') as f:
+            songs = pickle.load(f)
+    except FileNotFoundError:
+        songs = set()
+
+    # retrieves songs and saves them
+    for song in pull_music(apikey, language, n_files=10000):
+        if song is None:
+            break
+        songs.add(song)
+        # In an ideal world this should be outside of the for-loop
+        # Sadly, because we use free API keys, they frequently stop randomly working halfway,
+        # so we need to save much more frequently. Inefficient, but effective
+        with open("songdb.dat", 'wb') as f:
+            pickle.dump(songs, f)

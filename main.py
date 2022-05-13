@@ -1,6 +1,6 @@
 from utils.duo import get_vocab
 from utils.database import search
-from utils import languages
+from utils import objects
 import getpass
 
 
@@ -26,7 +26,7 @@ def main():
     while duo_choice not in (1, 2):
         duo_choice = int(input("not recognized: try again? "))
 
-    language = languages.English if lang_choice == 1 else languages.Spanish
+    language = objects.English if lang_choice == 1 else objects.Spanish
     if duo_choice == 1:
         username = input("Enter your Duolingo username ")
         password = getpass.getpass("Enter your Duolingo password ")
