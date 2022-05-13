@@ -6,20 +6,15 @@ This project is currently being expanded by @samaocarpenter.
 
 ## Installation instructions
 
-Make sure you have Python 3.9 or later installed. 
-Then, install the tools for the Duolingo and Musixmatch APIs using this command:
+Clone this repo first, and navigate to it.
 
-```angular2html
-pip install duolingo-api
-pip install requests
-```
+### Anaconda Installation
 
-NOTE: You only need to install requests if you plan on modifying the database.
-Normal users need not install requests.
+Anaconda is the recommended way to install this project. To create the conda environment, simply navigate to the top level of this project and run `conda env create -f environment.yml`. Then, activate the new `unilang` environment and all dependencies will be met.
 
-After your environment is set up, clone this repository.
+### `pip` Installation
 
-A requirements.txt file will be provided relatively soon, as the dependencies are likely to expand as the project expands over time.
+To use `pip` to install the dependencies, navigate to the to level of this project and run `pip install -r requirements.txt.`
 
 ## Using the tool
 
