@@ -84,7 +84,7 @@ def pull_only_contents(language: Language, apikey: str) -> list:
 
     # Attempts to open the file
     try:
-        with open("songdb.dat", 'rb') as f:
+        with open("databases/songdb.dat", 'rb') as f:
             songs = pickle.load(f)
     except FileNotFoundError:
         songs = set()
@@ -97,5 +97,5 @@ def pull_only_contents(language: Language, apikey: str) -> list:
         # In an ideal world this should be outside of the for-loop
         # Sadly, because we use free API keys, they frequently stop randomly working halfway,
         # so we need to save much more frequently. Inefficient, but effective
-        with open("songdb.dat", 'wb') as f:
+        with open("databases/songdb.dat", 'wb') as f:
             pickle.dump(songs, f)
