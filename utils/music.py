@@ -29,8 +29,8 @@ def pull_music(apikey: str, language: Language, n_files: int = 100):
         "page_size": min(100, n_files),
         "country": "XW",
         "page": page,
-        "chart_name": 'mxmweekly',
-        "f_has_lyrics": True
+        "chart_name": "mxmweekly",
+        "f_has_lyrics": True,
     }
 
     while n_files > 0:
@@ -39,9 +39,9 @@ def pull_music(apikey: str, language: Language, n_files: int = 100):
 
         # collects songs
         response = requests.get(url, params=parameters)
-        songs = response.json()['message']['body']['track_list']
+        songs = response.json()["message"]["body"]["track_list"]
 
-        code = response.json()['message']['header']['status_code']
+        code = response.json()["message"]["header"]["status_code"]
         if code != 200:
             print("error: status code", code)
             return None
@@ -50,15 +50,12 @@ def pull_music(apikey: str, language: Language, n_files: int = 100):
 
             # Isolates song and collects lyrics
             song = song["track"]
-            track_id = song['commontrack_id']
+            track_id = song["commontrack_id"]
             url2 = "https://api.musixmatch.com/ws/1.1/track.lyrics.get"
-            small_p = {
-                "commontrack_id": track_id,
-                "apikey": apikey
-            }
+            small_p = {"commontrack_id": track_id, "apikey": apikey}
             lyrics = requests.get(url2, params=small_p)
 
-            code = lyrics.json()['message']['header']['status_code']
+            code = lyrics.json()["message"]["header"]["status_code"]
             if code != 200:
                 print("error: status code", code)
                 return None
@@ -66,9 +63,15 @@ def pull_music(apikey: str, language: Language, n_files: int = 100):
             lyrics = lyrics.json()["message"]["body"]["lyrics"]
 
             # Checks explicit filter, then saves it
-            if (filter_explicit and not lyrics['explicit']) or not filter_explicit:
+            if (filter_explicit and not lyrics["explicit"]) or not filter_explicit:
                 n_files -= 1
-                yield Song(song["track_name"], song["artist_name"], lyrics["lyrics_body"][:-58], track_id, language)
+                yield Song(
+                    song["track_name"],
+                    song["artist_name"],
+                    lyrics["lyrics_body"][:-58],
+                    track_id,
+                    language,
+                )
 
         # Makes sure the code examines new songs
         page += 1

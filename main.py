@@ -22,7 +22,11 @@ def main():
     while lang_choice not in (1, 2):
         lang_choice = int(input("not recognized: try again? "))
 
-    duo_choice = int(input("Would you like to link to your Duolingo account? Type 1 for yes, 2 for no. "))
+    duo_choice = int(
+        input(
+            "Would you like to link to your Duolingo account? Type 1 for yes, 2 for no. "
+        )
+    )
     while duo_choice not in (1, 2):
         duo_choice = int(input("not recognized: try again? "))
 
@@ -38,5 +42,5 @@ def main():
         print(name)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

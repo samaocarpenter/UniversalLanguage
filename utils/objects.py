@@ -6,7 +6,7 @@ class Language:
     def __init__(self, name: str, code: str) -> None:
         self.name = name
         self.code = code
-        self.file = 'databases/' + name + '.db'
+        self.file = "databases/" + name + ".db"
 
     # simple printable look at language
     def __str__(self):
@@ -14,8 +14,8 @@ class Language:
 
 
 # Creates default languages to be used with corresponding codes
-Spanish = Language('spanish', 'es')
-English = Language('english', 'en')
+Spanish = Language("spanish", "es")
+English = Language("english", "en")
 
 # List of languages
 langs = [
@@ -26,7 +26,9 @@ langs = [
 
 class Song:
     # Saves data for the song
-    def __init__(self, name: str, artist: str, lyrics: str, id: int, language: Language = English) -> None:
+    def __init__(
+        self, name: str, artist: str, lyrics: str, id: int, language: Language = English
+    ) -> None:
         self.name = name
         self.artist = artist
         self.lyrics = lyrics
@@ -35,7 +37,7 @@ class Song:
 
     # Returns simple string representation of song
     def __str__(self):
-        return self.name + ' by ' + self.artist
+        return self.name + " by " + self.artist
 
     # hashing (IMPORTANT FOR SETS)
     def __hash__(self):
