@@ -1,7 +1,6 @@
 from utils.objects import Language
 import duolingo
 from random import shuffle
-from nltk.stem.snowball import SnowballStemmer
 
 
 def get_vocab(
@@ -22,15 +21,8 @@ def get_vocab(
     lingo = duolingo.Duolingo(username, password)
     my_set = lingo.get_known_words(language.code)
 
-    stemmer = SnowballStemmer(language.name)
-
-    new_set = []
-    for word in my_set:
-        new = stemmer.stem(word)
-        new_set.add(new)
-
     # if all words are requested, they're returned as a list
-    my_list = list(new_set)
+    my_list = list(my_set)
     if n_words == -1:
         return my_list
 

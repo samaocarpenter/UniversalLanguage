@@ -7,12 +7,12 @@ from nltk import SnowballStemmer
 
 def search(
     vocab: list[str],
-    fname: str,
+    language: Language,
     n_songs: int = 3,
 ) -> list[str]:
     """
     :param vocab: list of vocabulary words to be searched for
-    :param fname: file for language to be used
+    :param language: language to be used
     :param n_songs: number of songs to return
     :return: list of n_songs songs, each represented as a string containing:
         (song name) by (artist name)
@@ -20,16 +20,19 @@ def search(
 
     # Tries to open up the file
     try:
-        with open(fname, "rb") as f:
+        with open("utils/" + language.file, "rb") as f:
             words = pickle.load(f)
     except FileNotFoundError as e:
         raise FileNotFoundError(
             "Language input does not have an existing associated database.\n" + repr(e)
         )
 
+    stemmer = SnowballStemmer(language.name)
+
     # Tracks usages of words in each song
     counts = Counter()
     for word in vocab:
+        word = stemmer.stem(word)
         if word in words:
             for song in words[word]:
                 counts[song] += 1

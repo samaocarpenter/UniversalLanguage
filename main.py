@@ -38,7 +38,7 @@ def main():
     else:
         vocab = input("Enter your vocab words, separated by only a space. ").split(" ")
     n_songs = int(input("how many songs would you like? "))
-    for name in search(vocab, "utils/" + language.file, n_songs):
+    for name in search(vocab, language, n_songs):
         print(name)
 
 
