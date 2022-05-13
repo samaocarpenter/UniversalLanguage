@@ -1,6 +1,6 @@
 from utils.duo import get_vocab
 from utils.database import search
-from utils import languages
+from utils import objects
 import getpass
 
 
@@ -22,11 +22,15 @@ def main():
     while lang_choice not in (1, 2):
         lang_choice = int(input("not recognized: try again? "))
 
-    duo_choice = int(input("Would you like to link to your Duolingo account? Type 1 for yes, 2 for no. "))
+    duo_choice = int(
+        input(
+            "Would you like to link to your Duolingo account? Type 1 for yes, 2 for no. "
+        )
+    )
     while duo_choice not in (1, 2):
         duo_choice = int(input("not recognized: try again? "))
 
-    language = languages.English if lang_choice == 1 else languages.Spanish
+    language = objects.English if lang_choice == 1 else objects.Spanish
     if duo_choice == 1:
         username = input("Enter your Duolingo username ")
         password = getpass.getpass("Enter your Duolingo password ")
@@ -34,9 +38,9 @@ def main():
     else:
         vocab = input("Enter your vocab words, separated by only a space. ").split(" ")
     n_songs = int(input("how many songs would you like? "))
-    for name in search(vocab, "utils/" + language.file, n_songs):
+    for name in search(vocab, language, n_songs):
         print(name)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
